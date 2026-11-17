@@ -1,0 +1,22 @@
+name: 'Rickroll on failure'
+description: "Affiche un rickroll dans le CI quand un test échoue"
+inputs:
+  message:
+    description: "Message affiché avant le lien"
+    required: false
+    default: "Un test a échoué... mais ne lâche pas !"
+runs:
+  using: composite
+  steps:
+    - shell: bash
+      env:
+        MSG: ${{ inputs.message }}
+      run: |
+        echo "::error title=Rickroll::${MSG} https://youtu.be/dQw4w9WgXcQ"
+        {
+          echo "## 🎵 Rickroll 🎵"
+          echo ""
+          echo "${MSG}"
+          echo ""
+          echo "[▶️ Clique ici pour ta récompense](https://youtu.be/dQw4w9WgXcQ)"
+        } >> "$GITHUB_STEP_SUMMARY"
